@@ -1,5 +1,7 @@
-import MaxWidthWrapper from "@/component/MaxWidthWrapper";
-import Phone from "@/component/Phone";
+import Icons from "@/components/icon";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import Phone from "@/components/Phone";
+import Reviews from "@/components/Reviews";
 import { Check, Star } from "lucide-react";
 import Image from "next/image";
 
@@ -92,10 +94,101 @@ export default function Home() {
                 src="/line.png"
                 className="absolute w-20 -left-6 -bottom-6 select-none"
               />
-              <Phone className="w-64" imgSrc="/testimonials/1.jpg"/>
+              <Phone className="w-64" imgSrc="/testimonials/1.jpg" />
             </div>
           </div>
         </MaxWidthWrapper>
+      </section>
+      {/* Value proposition section */}
+
+      <section className="bg-slate-100 py-24">
+        <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-32">
+          <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
+            <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
+              What our{" "}
+              <span className="relative px-2">
+                customer{" "}
+                <Icons.underline className="hidden sm:block pointer-events-none absolute inset-x-0 -bottom-6 text-green-500" />
+              </span>{" "}
+              say
+            </h2>
+            <img src="/snake-2.png" className="w-24 order-0 lg:order-2" />
+          </div>
+          <div className="mx-auto grid max-w-2xl grid-cols-1 px-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 gap-y-16">
+            <div className="flex flex-auto flex-col gap-4 lg:pr-8 xl:pr-20">
+              <div className="flex gap-0.5 mb-2">
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+              </div>
+              <div className="text-lg leading-8">
+                <p>
+                  "The case feels durable and I even got a complement on the
+                  design. Had the case for two and half month now and{" "}
+                  <span className="p-0.5 bg-slate-800 text-white">
+                    the image is super clear
+                  </span>{" "}
+                  on the case I had before, the image started faded into
+                  yellowish color after a couple weeks "
+                </p>
+              </div>
+              <div className="flex gap-4 mt-2">
+                <img
+                  className="rounded-full h-12 w-12 object-cover "
+                  src="/users/user-1.png"
+                  alt="user"
+                />
+                <div className="flex flex-col ">
+                  <p className="font-semibold">Johnatan</p>
+                  <div className="flex gap-1.5 items-center text-zinc-600">
+                    <Check className="h-4 w-4 stroke-[3px] text-green-600" />
+                    <p className="text-sm ">Verified Purchesed</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-auto flex-col gap-4 lg:pr-8 xl:pr-20">
+              <div className="flex gap-0.5 mb-2">
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+                <Star className="h-5 w-5 text-green-600 fill-green-600" />
+              </div>
+              <div className="text-lg leading-8">
+                <p>
+                  "I usually keep my phone with my keys in my pockets and that
+                  lead to heavy lead scrathmarks on all of my last phone cases.
+                  This one, beside a barely noticable scratch on the corner,{" "}
+                  <span className="p-0.5 bg-slate-800 text-white">
+                    looks brand new after about half an year
+                  </span>{" "}
+                  I dig it "
+                </p>
+              </div>
+              <div className="flex gap-4 mt-2">
+                <img
+                  className="rounded-full h-12 w-12 object-cover "
+                  src="/users/user-1.png"
+                  alt="user"
+                />
+                <div className="flex flex-col ">
+                  <p className="font-semibold">Josh</p>
+                  <div className="flex gap-1.5 items-center text-zinc-600">
+                    <Check className="h-4 w-4 stroke-[3px] text-green-600" />
+                    <p className="text-sm ">Verified Purchesed</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </MaxWidthWrapper>
+        <div className="h-16">
+          <Reviews />
+
+        </div>
       </section>
     </div>
   );

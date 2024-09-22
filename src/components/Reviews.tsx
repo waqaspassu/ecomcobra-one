@@ -21,7 +21,6 @@ function splitArray<T>(arr: Array<T>, arrNumber: number) {
 
   for (let i = 0; i < arr.length; i++) {
     let index = i % arrNumber;
-    console.log("index", index);
     if (!result[index]) {
       result[index] = [];
     }
@@ -107,7 +106,6 @@ function Review({ imgSrc, className, ...rest }: ReviewProps) {
 }
 const ReviewGrid = () => {
   const columns = splitArray(PHONES, 3);
-  console.log({ columns });
   const column1 = columns[0];
   const column2 = columns[1];
   const column3 = splitArray(columns[2], 2);

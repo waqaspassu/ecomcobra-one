@@ -1,7 +1,10 @@
 "use server";
 
+import { BASE_PRICE, PRODUCT_PRICES } from "@/config/products";
 import { db } from "@/db";
+import { stripe } from "@/lib/stripe";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Order } from "@prisma/client";
 
 export const createCheckoutSession = async ({
   configId,
@@ -22,4 +25,86 @@ export const createCheckoutSession = async ({
   if (!user) {
     throw new Error("You need to be logged In");
   }
+
+  const existingUser = await db.user.findUnique({
+    where: {
+      id: user.id,
+    },
+  });
+
+  
+  if (!existingUser) {
+    await db.user.create({
+      data: {
+        id: user.id,
+        email: user.email!,
+      },
+    });
+  }
+
+  const { finish, material } = configuration;
+
+  let price = BASE_PRICE;
+
+  if (finish === "textured") {
+    price += PRODUCT_PRICES.finish.textured;
+  }
+
+  if (material === "polycarbonate") {
+    price += PRODUCT_PRICES.material.plicarbon;
+  }
+
+  let order: Order | undefined = undefined;
+  console.log(user.id, configuration.id);
+  const existingOrder = await db.order.findFirst({
+    where: {
+      userId: user.id,
+      configurationId: configuration.id,
+    },
+  });
+
+  if (existingOrder) {
+    order = existingOrder;
+  } else {
+    order = await db.order.create({
+      data: {
+        amount: price / 100,
+        userId: user.id,
+        configurationId: configuration.id,
+      },
+    });
+  }
+
+  const products = stripe.products.create({
+    name: "Custom iPhone Case",
+    images: [configuration.imageUrl],
+    default_price_data: {
+      currency: "USD",
+      unit_amount: price,
+    },
+  });
+
+  const stripeSession = await stripe.checkout.sessions.create({
+    success_url: `${process.env.KINDE_SITE_URL}/thank-you?orderId=${order.id}`,
+    cancel_url: `${process.env.KINDE_SITE_URL}/configure/preview?id=${configuration.id}`,
+    payment_method_types: ["card"],
+    mode: "payment",
+    shipping_address_collection: {
+      allowed_countries: ["DE", "US", "PK"],
+    },
+    metadata: {
+      userId: user.id,
+      orderId: order.id,
+    },
+    line_items: [
+      {
+        price: (await products).default_price as string,
+        quantity: 1,
+      },
+    ],
+  });
+
+  return {
+    url: stripeSession.url,
+  };
 };
